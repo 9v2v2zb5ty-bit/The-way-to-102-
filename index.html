@@ -86,11 +86,22 @@ td:first-child{color:var(--mut);direction:ltr;text-align:right;width:64px}
 .er .ac{display:flex;gap:8px;margin-top:6px}
 .er .ac button{background:var(--chip);color:var(--ink);border:1px solid var(--line);border-radius:10px;padding:3px 12px;font:inherit;font-size:13px;cursor:pointer}
 .er.ok{opacity:.55}
+.up{display:flex;align-items:center;gap:10px}
+.fbtn{background:var(--chip);border:1px dashed var(--mut);border-radius:12px;padding:8px 14px;font-size:14px;font-weight:600;cursor:pointer}
+.up .th{position:relative;display:inline-block}
+.up .th img{height:48px;border-radius:8px;display:block}
+.up .th button{position:absolute;top:-6px;left:-6px;width:20px;height:20px;border-radius:50%;border:0;background:var(--red);color:#fff;font-size:12px;line-height:1;cursor:pointer;padding:0}
+.er .lbl{font-size:12px;color:var(--mut);margin:8px 0 2px;font-weight:600}
+.er img{max-width:100%;max-height:220px;border-radius:10px;border:1px solid var(--line);cursor:zoom-in;display:block}
+#lb{position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:50;display:grid;place-items:center;padding:12px;cursor:zoom-out}
+#lb[hidden]{display:none}
+#lb img{max-width:100%;max-height:100%;border-radius:8px}
 .er.ok .s{text-decoration:line-through}
 @media (prefers-reduced-motion:reduce){.bar i{transition:none}}
 </style>
 </head>
 <body>
+<div id="lb" hidden><img alt=""></div>
 <main>
 <section class="hero">
 <div class="big" aria-hidden="true">102</div>
@@ -155,8 +166,10 @@ td:first-child{color:var(--mut);direction:ltr;text-align:right;width:64px}
 <h3>دفتر الأخطاء</h3>
 <div class="eform">
 <select id="es" aria-label="المادة"></select>
-<textarea id="eq" rows="2" placeholder="شنو كان السؤال أو الخطأ؟"></textarea>
-<textarea id="ea" rows="2" placeholder="شنو الحل الصحيح؟ وليش غلطت؟"></textarea>
+<textarea id="eq" rows="2" placeholder="شنو الخطأ؟ (السؤال أو شنو غلطت بيه)"></textarea>
+<div class="up"><label class="fbtn">📷 صورة الخطأ<input type="file" accept="image/*" id="eqi" hidden></label><span id="eqp"></span></div>
+<textarea id="ea" rows="2" placeholder="شنو التصحيح؟ وليش غلطت؟"></textarea>
+<div class="up"><label class="fbtn">📷 صورة التصحيح<input type="file" accept="image/*" id="eai" hidden></label><span id="eap"></span></div>
 <button class="btn pri" id="eadd">احفظ الخطأ</button>
 </div>
 <div class="efilter"><select id="ef" aria-label="تصفية"></select><span id="ec"></span></div>
@@ -227,16 +240,28 @@ const esc=s=>s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&qu
 const SK=Object.keys(S).filter(k=>k!='misc'&&k!='hw');
 $('es').innerHTML=SK.map(k=>`<option value="${k}">${S[k][0]}</option>`).join('');
 $('ef').innerHTML='<option value="all">كل المواد</option><option value="todo">لم تُراجَع بعد</option>'+SK.map(k=>`<option value="${k}">${S[k][0]}</option>`).join('');
+/* صور الأخطاء: تنحفظ بـ IndexedDB بعد تصغيرها */
+const idb=new Promise(r=>{try{const q=indexedDB.open('j102img',1);q.onupgradeneeded=()=>q.result.createObjectStore('i');q.onsuccess=()=>r(q.result);q.onerror=()=>r(null)}catch(e){r(null)}});
+const iop=async(m,k,v)=>{const d=await idb;if(!d)return null;return new Promise(r=>{try{const s=d.transaction('i',m=='get'?'readonly':'readwrite').objectStore('i'),q=m=='get'?s.get(k):m=='put'?s.put(v,k):s.delete(k);q.onsuccess=()=>r(q.result||null);q.onerror=()=>r(null)}catch(e){r(null)}})};
+const comp=f=>new Promise(r=>{const u=URL.createObjectURL(f),im=new Image();im.onload=()=>{const s=Math.min(1,1200/Math.max(im.width,im.height)),c=document.createElement('canvas');c.width=Math.round(im.width*s);c.height=Math.round(im.height*s);c.getContext('2d').drawImage(im,0,0,c.width,c.height);URL.revokeObjectURL(u);r(c.toDataURL('image/jpeg',.72))};im.onerror=()=>r(null);im.src=u});
+const P={q:null,a:null};
+function pv(k){const el=$('e'+k+'p');el.innerHTML=P[k]?`<span class="th"><img src="${P[k]}" alt=""><button type="button" data-x="${k}" aria-label="إزالة الصورة">✕</button></span>`:''}
+['q','a'].forEach(k=>{$('e'+k+'i').onchange=async e=>{const f=e.target.files[0];if(!f)return;P[k]=await comp(f);e.target.value='';pv(k)};$('e'+k+'p').onclick=e=>{if(e.target.dataset.x){P[k]=null;pv(k)}}});
 function rE(){
  const f=$('ef').value,L=E.filter(x=>f=='all'||(f=='todo'?!x.ok:x.s==f));
  $('ec').textContent=`${L.length} من ${E.length} · تمت مراجعة ${E.filter(x=>x.ok).length}`;
- $('elist').innerHTML=L.length?L.map(x=>`<div class="er ${x.ok?'ok':''}" style="--c:${S[x.s][1]}"><span class="s">${S[x.s][0]}</span><span class="dt">${x.d}</span><p>${esc(x.q)}</p>${x.a?`<p class="a">${esc(x.a)}</p>`:''}<div class="ac"><button data-a="ok" data-id="${x.id}">${x.ok?'رجّعها للمراجعة':'راجعتها ✓'}</button><button data-a="del" data-id="${x.id}">حذف</button></div></div>`).join(''):'<p class="msg">ماكو أخطاء هنا. اكتب أول خطأ وخليه يصير درس.</p>';
+ $('elist').innerHTML=L.length?L.map(x=>`<div class="er ${x.ok?'ok':''}" style="--c:${S[x.s][1]}"><span class="s">${S[x.s][0]}</span><span class="dt">${x.d}</span>${(x.q||x.iq)?'<div class="lbl">الخطأ</div>':''}${x.q?`<p>${esc(x.q)}</p>`:''}${x.iq?`<img data-k="${x.id}q" alt="صورة الخطأ">`:''}${(x.a||x.ia)?'<div class="lbl">التصحيح</div>':''}${x.a?`<p class="a">${esc(x.a)}</p>`:''}${x.ia?`<img data-k="${x.id}a" alt="صورة التصحيح">`:''}<div class="ac"><button data-a="ok" data-id="${x.id}">${x.ok?'رجّعها للمراجعة':'راجعتها ✓'}</button><button data-a="del" data-id="${x.id}">حذف</button></div></div>`).join(''):'<p class="msg">ماكو أخطاء هنا. اكتب أول خطأ وخليه يصير درس.</p>';
+ document.querySelectorAll('#elist img[data-k]').forEach(async im=>{const v=await iop('get',im.dataset.k);if(v)im.src=v;else im.alt='الصورة غير متوفرة بهذا المتصفح'});
 }
-$('eadd').onclick=()=>{const q=$('eq').value.trim();if(!q){$('eq').focus();return}
- const n=new Date();E.unshift({id:Date.now(),s:$('es').value,q,a:$('ea').value.trim(),ok:false,d:n.getDate()+'/'+(n.getMonth()+1)});
- se();$('eq').value='';$('ea').value='';rE()};
-$('elist').onclick=e=>{const b=e.target.closest('button');if(!b)return;const id=+b.dataset.id;
- if(b.dataset.a=='del')E=E.filter(x=>x.id!=id);else E.forEach(x=>{if(x.id==id)x.ok=!x.ok});se();rE()};
+$('eadd').onclick=async()=>{const q=$('eq').value.trim();if(!q&&!P.q){$('eq').focus();return}
+ const n=new Date(),id=Date.now(),a=$('ea').value.trim();
+ const x={id,s:$('es').value,q,a,ok:false,d:n.getDate()+'/'+(n.getMonth()+1),iq:!!P.q,ia:!!P.a};
+ if(P.q)await iop('put',id+'q',P.q);if(P.a)await iop('put',id+'a',P.a);
+ E.unshift(x);se();$('eq').value='';$('ea').value='';P.q=P.a=null;pv('q');pv('a');rE()};
+$('elist').onclick=e=>{const im=e.target.closest('img');if(im&&im.src){$('lb').firstElementChild.src=im.src;$('lb').hidden=false;return}
+ const b=e.target.closest('button');if(!b)return;const id=+b.dataset.id;
+ if(b.dataset.a=='del'){iop('del',id+'q');iop('del',id+'a');E=E.filter(x=>x.id!=id)}else E.forEach(x=>{if(x.id==id)x.ok=!x.ok});se();rE()};
+$('lb').onclick=()=>{$('lb').hidden=true};
 $('ef').onchange=rE;rE();
 </script>
 </body>
