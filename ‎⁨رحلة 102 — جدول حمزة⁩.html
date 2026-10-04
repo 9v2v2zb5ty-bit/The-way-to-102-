@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>رحلة 102 — جدول حمزة</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800;900&display=swap">
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+--bg:#eef2ef;--card:#fff;--ink:#12262b;--mut:#5d7176;--line:#d9e2de;--teal:#0e7c7b;--gold:#b8860b;--red:#d1495b;--chip:#e3ece8}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0d1a1e;--card:#15272c;--ink:#e8f1ee;--mut:#8fa6ab;--line:#264047;--teal:#2bb3ae;--gold:#e5b93c;--red:#ef6f81;--chip:#1d3339}}
+:root[data-theme="dark"]{--bg:#0d1a1e;--card:#15272c;--ink:#e8f1ee;--mut:#8fa6ab;--line:#264047;--teal:#2bb3ae;--gold:#e5b93c;--red:#ef6f81;--chip:#1d3339}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Cairo',Tahoma,sans-serif;line-height:1.6}
+main{max-width:720px;margin:0 auto;padding:16px 14px 60px}
+.hero{background:var(--ink);color:#f3f7f5;border-radius:22px;padding:22px 18px;position:relative;overflow:hidden}
+:root[data-theme="dark"] .hero,:root:not([data-theme="light"]) .hero{background:#0a1417}
+.hero .big{position:absolute;left:-6px;top:-34px;font-size:150px;font-weight:900;color:#e5b93c;opacity:.14;line-height:1;pointer-events:none}
+.hero h1{margin:0;font-size:26px;font-weight:900}
+.hero p{margin:2px 0 0;color:#9fb8bd;font-size:14px}
+.row{display:flex;align-items:center;gap:16px;margin-top:16px}
+.ring{position:relative;width:118px;height:118px;flex:none}
+.ring svg{transform:rotate(-90deg)}
+.ring b{position:absolute;inset:0;display:grid;place-items:center;font-size:28px;font-weight:900}
+.ring small{display:block;font-size:11px;font-weight:600;color:#9fb8bd;text-align:center;margin-top:-6px}
+.q{flex:1;font-size:16px;font-weight:600;line-height:1.7;min-height:84px}
+.q button{display:block;margin-top:8px;background:none;border:1px solid #35545b;color:#c9dadd;border-radius:99px;padding:3px 12px;font:inherit;font-size:12px;cursor:pointer}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:14px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:10px;text-align:center}
+.stat b{display:block;font-size:22px;font-weight:900;color:var(--teal)}
+.stat span{font-size:12px;color:var(--mut)}
+.tabs{display:flex;gap:6px;overflow-x:auto;margin:18px -14px 0;padding:4px 14px 8px;position:sticky;top:env(safe-area-inset-top,0px);background:var(--bg);z-index:5}
+.tab{flex:none;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:14px;padding:6px 14px;font:inherit;font-weight:600;font-size:14px;cursor:pointer;text-align:center;min-width:74px}
+.tab small{display:block;font-size:11px;color:var(--mut);font-weight:400}
+.tab.on{background:var(--teal);border-color:var(--teal);color:#fff}
+.tab.on small{color:#d6f1ef}
+.tab.today::after{content:"اليوم";display:block;font-size:10px;color:var(--gold);font-weight:800;margin-top:-4px}
+.tab.on.today::after{color:#ffe28a}
+.dayhead{display:flex;justify-content:space-between;align-items:end;margin:14px 2px 6px}
+.dayhead h2{margin:0;font-size:22px;font-weight:900}
+.dayhead span{font-size:13px;color:var(--mut)}
+.bar{height:10px;background:var(--chip);border-radius:9px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--teal);border-radius:9px;transition:width .4s}
+.msg{font-size:13px;color:var(--mut);margin:6px 2px 10px}
+.list{display:flex;flex-direction:column;gap:7px}
+.it{display:flex;gap:10px;align-items:flex-start;background:var(--card);border:1px solid var(--line);border-right:5px solid var(--c);border-radius:12px;padding:10px 12px;cursor:pointer;user-select:none}
+.it input{appearance:none;flex:none;width:22px;height:22px;border:2px solid var(--line);border-radius:7px;margin:3px 0 0;cursor:pointer;display:grid;place-items:center}
+.it input:checked{background:var(--c);border-color:var(--c)}
+.it input:checked::after{content:"✓";color:#fff;font-size:14px;font-weight:900}
+.it input:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.it .t{font-size:12px;color:var(--mut);direction:ltr;unicode-bidi:isolate;display:inline-block}
+.it .s{font-weight:800;font-size:15px}
+.it .d{font-size:14px;color:var(--mut)}
+.it.done{opacity:.55}
+.it.done .s,.it.done .d{text-decoration:line-through}
+.ex{background:var(--red);color:#fff;border-radius:6px;font-size:11px;font-weight:800;padding:0 6px;margin-right:6px}
+h3{font-size:18px;font-weight:900;margin:28px 2px 10px}
+.subj{display:grid;gap:8px}
+.sb{display:grid;grid-template-columns:70px 1fr 38px;gap:8px;align-items:center;font-size:13px}
+.sb .bar{height:8px}
+.sb .bar i{background:var(--c)}
+.sb em{font-style:normal;color:var(--mut);text-align:left}
+.rules{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.rule{border-radius:14px;padding:10px;font-size:13px;color:#fff;font-weight:600}
+.rule b{display:block;font-size:15px}
+details{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:10px 14px;margin-top:10px}
+summary{font-weight:800;cursor:pointer}
+table{width:100%;border-collapse:collapse;font-size:14px;margin-top:8px}
+td{padding:5px 2px;border-top:1px solid var(--line)}
+td:first-child{color:var(--mut);direction:ltr;text-align:right;width:64px}
+.foot{display:flex;justify-content:space-between;gap:8px;margin-top:26px}
+.btn{background:var(--chip);color:var(--ink);border:1px solid var(--line);border-radius:12px;padding:8px 16px;font:inherit;font-weight:600;cursor:pointer}
+.eform{display:grid;gap:8px}
+.eform select,.eform textarea,.efilter select{width:100%;background:var(--card);color:var(--ink);border:1px solid var(--line);border-radius:12px;padding:10px 12px;font:inherit;font-size:15px;resize:vertical}
+.eform :focus-visible,.efilter :focus-visible{outline:3px solid var(--gold);outline-offset:1px}
+.btn.pri{background:var(--teal);color:#fff;border-color:var(--teal)}
+.efilter{display:flex;align-items:center;gap:10px;margin:14px 0 8px}
+.efilter select{width:auto;padding:6px 10px}
+.efilter span{font-size:13px;color:var(--mut)}
+.er{background:var(--card);border:1px solid var(--line);border-right:5px solid var(--c);border-radius:12px;padding:10px 12px}
+.er .s{font-weight:800;font-size:15px}
+.er .dt{font-size:12px;color:var(--mut);margin-right:8px}
+.er p{margin:4px 0;font-size:14px;white-space:pre-wrap}
+.er p.a{color:var(--teal);font-weight:600}
+.er .ac{display:flex;gap:8px;margin-top:6px}
+.er .ac button{background:var(--chip);color:var(--ink);border:1px solid var(--line);border-radius:10px;padding:3px 12px;font:inherit;font-size:13px;cursor:pointer}
+.er.ok{opacity:.55}
+.er.ok .s{text-decoration:line-through}
+@media (prefers-reduced-motion:reduce){.bar i{transition:none}}
+</style>
+</head>
+<body>
+<main>
+<section class="hero">
+<div class="big" aria-hidden="true">102</div>
+<h1>رحلة 102 ← طب بغداد</h1>
+<p>الهدف: 100 بكل مادة · نوم 1:00 · استيقاظ 7:00 · جلسة 50 + راحة 10</p>
+<div class="row">
+<div class="ring"><svg width="118" height="118" viewBox="0 0 118 118"><circle cx="59" cy="59" r="52" fill="none" stroke="#264047" stroke-width="10"/><circle id="rg" cx="59" cy="59" r="52" fill="none" stroke="#e5b93c" stroke-width="10" stroke-linecap="round" stroke-dasharray="326.7" stroke-dashoffset="326.7" style="transition:stroke-dashoffset .5s"/></svg><b id="wp">0%</b></div>
+<div class="q"><span id="qt"></span><button id="qb">اقتباس ثاني</button></div>
+</div>
+</section>
+
+<div class="stats">
+<div class="stat"><b id="s1">0%</b><span>إنجاز اليوم</span></div>
+<div class="stat"><b id="s2">0/0</b><span>مهام الأسبوع</span></div>
+<div class="stat"><b id="s3">0</b><span>امتحانات منجزة</span></div>
+</div>
+
+<nav class="tabs" id="tabs" aria-label="أيام الأسبوع"></nav>
+<div class="dayhead"><h2 id="dn"></h2><span id="dp"></span></div>
+<div class="bar"><i id="db" style="width:0"></i></div>
+<p class="msg" id="dm"></p>
+<div class="list" id="list"></div>
+
+<h3>إنجازك حسب المادة</h3>
+<div class="subj" id="subj"></div>
+
+<h3>قانون التراكم</h3>
+<div class="rules">
+<div class="rule" style="background:#2e9e6b"><b>أخضر</b>خلصتها خلال 24 ساعة</div>
+<div class="rule" style="background:#c98a0b"><b>أصفر</b>متأخرة يومين</div>
+<div class="rule" style="background:#d1495b"><b>أحمر</b>أكثر من يومين. الحد 3 فقط</div>
+</div>
+<p class="msg">الأولوية: امتحان قريب ← محاضرة داخلة بالامتحان ← تراكم ← محاضرة جديدة. إذا صار عندك 3 حمر، الخميس يتحول ليوم إنقاذ.</p>
+
+<details><summary>جدول الإسلامية (جدول الأستاذ)</summary>
+<table>
+<tr><td>6/10</td><td>أحكام التلاوة 1–2</td></tr>
+<tr><td>9/10</td><td>أحكام التلاوة 3–4</td></tr>
+<tr><td>13/10</td><td>امتحان شامل</td></tr>
+<tr><td>16/10</td><td>سورة البقرة 1</td></tr>
+<tr><td>20/10</td><td>سورة البقرة 1–2</td></tr>
+<tr><td>23/10</td><td>أصحاب الكهف 1</td></tr>
+<tr><td>27/10</td><td>أصحاب الكهف 1–2</td></tr>
+<tr><td>30/10</td><td>حديث التعاون 1</td></tr>
+<tr><td>3/11</td><td>حديث التعاون 1–2</td></tr>
+<tr><td>6/11</td><td>نظام الأسرة 1</td></tr>
+<tr><td>10/11</td><td>نظام الأسرة 1–2</td></tr>
+<tr><td>13/11</td><td>الغضب</td></tr>
+<tr><td>17/11</td><td>فاينل الوحدة الأولى</td></tr>
+</table></details>
+
+<details><summary>نظام المبرهنة الأسبوعية</summary>
+<table>
+<tr><td>الأحد</td><td>افهمها</td></tr>
+<tr><td>الاثنين</td><td>شوف البرهان واكتبه</td></tr>
+<tr><td>الأربعاء</td><td>اكتبها بدون نظر</td></tr>
+<tr><td>الخميس</td><td>حل سؤال عليها</td></tr>
+<tr><td>السبت</td><td>اختبار سريع من الذاكرة</td></tr>
+</table>
+<p class="msg">قبل المبرهنة الجديدة: 5 دقائق استرجاع للقديمة.</p></details>
+
+<h3>دفتر الأخطاء</h3>
+<div class="eform">
+<select id="es" aria-label="المادة"></select>
+<textarea id="eq" rows="2" placeholder="شنو كان السؤال أو الخطأ؟"></textarea>
+<textarea id="ea" rows="2" placeholder="شنو الحل الصحيح؟ وليش غلطت؟"></textarea>
+<button class="btn pri" id="eadd">احفظ الخطأ</button>
+</div>
+<div class="efilter"><select id="ef" aria-label="تصفية"></select><span id="ec"></span></div>
+<div class="list" id="elist"></div>
+
+<div class="foot">
+<button class="btn" id="th">الوضع الليلي / النهاري</button>
+<button class="btn" id="rs">تصفير الأسبوع</button>
+</div>
+</main>
+
+<script>
+const S={chem:['كيمياء','#7c5cbf'],bio:['أحياء','#2e9e6b'],math:['رياضيات','#2f6fde'],phy:['فيزياء','#e07a1f'],eng:['إنكليزي','#c2377e'],fr:['فرنسي','#4a6fa5'],ar:['عربي','#8a6d3b'],isl:['إسلامية','#1e8f8a'],hw:['واجبات','#6b7280'],misc:['عام','#6b7280']};
+const D=[
+{n:'الأحد',t:'محاضرات تنزل: كيمياء + أحياء · امتحان رياضيات وفيزياء',i:[
+['7:00','misc','استيقاظ + صلاة + فطور'],['7:30','misc','تهيئة اليوم + مراجعة سريعة'],['8:00–9:30','chem','محاضرة الأحد'],['10:00–11:30','bio','محاضرة الأحد + تلخيص + 10–15 سؤال'],['12:00–12:45','isl','ورقة النهايات + مراجعة آخر موضوع'],['1:45–3:00','math','تحضير لامتحان الساعة 4'],['4:00','math','امتحان رياضيات + تصحيح الأخطاء مباشرة'],['5:00–5:40','phy','مراجعة للامتحان'],['6:00','phy','امتحان فيزياء'],['8:00–10:00','eng','إنكليزي حضوري'],['10:30–11:30','hw','أسئلة أصدقائك اليوم'],['11:30','misc','مراجعة أخطاء امتحانات اليوم'],['12:00','math','مبرهنة الأسبوع: افهمها']]},
+{n:'الاثنين',t:'محاضرات تنزل: كيمياء + عربي',i:[
+['7:30–9:00','chem','محاضرة الاثنين'],['9:30–10:30','chem','تثبيت: أسئلة + قوانين + نقاط الحفظ'],['11:00–11:45','isl','ورقة النهايات'],['11:45–12:45','hw','واجبات المدرسة / امتحان يومي'],['2:00–3:30','fr','فرنسي حضوري'],['4:30–6:00','bio','مراجعة + أسئلة'],['6:00–7:00','chem','مراجعة سريعة'],['8:00–10:00','eng','إنكليزي حضوري'],['10:30–11:30','ar','محاضرة الاثنين + تثبيت'],['11:30–12:00','math','مبرهنة: شوف البرهان واكتبه']]},
+{n:'الثلاثاء',t:'يوم امتحانات: فيزياء 6 · أحياء + كيمياء 8',i:[
+['7:30–9:00','phy','تحضير لامتحان الساعة 6'],['9:30–11:00','bio','تحضير لامتحان الساعة 8'],['11:30–12:15','isl','حسب جدول الأستاذ (إذا امتحانها مفتوح 23 ساعة، امتحن وأنت صاحي)'],['12:15–1:15','chem','تحضير لامتحان الساعة 8'],['2:00–3:30','fr','فرنسي حضوري'],['4:30–5:30','phy','مراجعة نهائية'],['6:00','phy','امتحان فيزياء'],['8:00','bio','امتحان أحياء + كيمياء'],['11:00','misc','تصحيح أخطاء اليوم']]},
+{n:'الأربعاء',t:'محاضرة تنزل: فيزياء · امتحان رياضيات',i:[
+['7:30–9:00','phy','محاضرة الأربعاء'],['9:30–11:00','math','تحضير امتحان الساعة 4'],['11:30–12:00','isl','ورقة النهايات'],['12:00–2:00','eng','إنكليزي'],['3:00–3:40','math','مراجعة أخيرة'],['4:00','math','امتحان رياضيات'],['5:00–5:45','math','تصحيح وتحليل الأخطاء'],['6:30–7:30','chem','دراسة كيمياء'],['8:15–9:30','bio','دراسة أحياء'],['10:00–11:00','hw','واجبات المدرسة'],['11:00–12:00','math','مبرهنة: اكتبها من الذاكرة']]},
+{n:'الخميس',t:'يوم القوة والتصفير · بدون محاضرات ثابتة',i:[
+['7:30–9:30','chem','كيمياء عميقة: متراكم + أسئلة + أخطاء سابقة'],['10:00–12:00','bio','أحياء عميق: محاضرة + مراجعة + أسئلة'],['2:00–3:30','math','رياضيات'],['4:00–5:30','phy','فيزياء'],['6:30–7:15','isl','ورقة النهايات + موضوع الأسبوع'],['8:00–9:00','hw','امتحان يومي تجريبي (مادة وحدة بالتناوب)'],['9:00–9:30','hw','تصحيح الامتحان'],['9:30–10:15','math','مبرهنة: حل سؤال عليها'],['10:15–11:00','hw','واجبات المدرسة المتراكمة'],['11:00–12:00','misc','مراجعة أسبوعية: شنو خلصت؟ شنو متراكم؟ أخطاؤك؟']]},
+{n:'الجمعة',t:'محاضرة تنزل: كيمياء · امتحان فيزياء تراكمي وعربي',i:[
+['7:30–9:00','chem','محاضرة الجمعة'],['10:00–11:00','eng','إنكليزي'],['11:30–11:50','phy','تجهيز للامتحان التراكمي'],['12:00','phy','امتحان فيزياء تراكمي'],['2:00–3:30','ar','عربي'],['4:00–5:00','isl','جدول الأستاذ + ورقة النهايات'],['6:00','ar','امتحان عربي'],['8:00–9:30','chem','تثبيت كيمياء'],['10:00–11:00','bio','أحياء'],['11:00–12:00','hw','واجبات المدرسة']]},
+{n:'السبت',t:'محاضرات تنزل: كيمياء + فيزياء · امتحانات المساء',i:[
+['7:30–9:00','chem','محاضرة السبت'],['9:30–11:00','bio','تحضير للامتحان'],['11:00–12:00','phy','تحضير'],['1:00–1:45','isl','ورقة النهايات'],['2:00–3:30','fr','فرنسي حضوري'],['4:30–5:30','phy','مراجعة نهائية'],['6:00','phy','امتحان فيزياء'],['8:00','bio','امتحان أحياء + كيمياء'],['9:30','math','مبرهنة: اختبار سريع من الذاكرة'],['10:00','misc','حصاد الأسبوع: كم امتحان جبت بيه 100؟']]}
+];
+D.forEach(d=>d.i.push(['12:00','misc','ملخص الليل: ✅ خلصت · ❌ ما خلصت · 🔥 أهم شي باچر · 📊 درجتي']));
+const Q=['الدرجة الكاملة ما تجي من ساعات أكثر، تجي من أخطاء أقل.','كل ورقة نهايات تحلها اليوم، سؤال أقل يفاجئك بالامتحان.','طب بغداد ما يُحجز بالأمنيات، يُحجز بجدول التزمت بيه.','اللي يصحح خطأه اليوم، ما يدفع ثمنه بالامتحان.','لا تقارن يومك بيوم غيرك. قارنه بيوم أمس.','المحاضرة الحمراء تتحول خضراء بجلسة وحدة. ابدأ.','تعب اليوم عابر، والمعدل ينكتب بالدفتر.','فهمت؟ استرجع. استرجعت؟ حل. حليت؟ امتحن.'];
+let st={};try{st=JSON.parse(localStorage.getItem('j102')||'{}')}catch(e){}
+const sv=()=>{try{localStorage.setItem('j102',JSON.stringify(st))}catch(e){}};
+const $=id=>document.getElementById(id);
+const today=new Date().getDay();let cur=today,qi=Math.floor(Math.random()*Q.length);
+const isEx=t=>/امتحان/.test(t)&&!/تحضير|مراجعة|تجهيز|تصحيح/.test(t.split('+')[0]);
+const cnt=(d)=>{let a=0;D[d].i.forEach((_,k)=>{if(st[d+'-'+k])a++});return a};
+function render(){
+ $('tabs').innerHTML=D.map((d,k)=>`<button class="tab ${k==cur?'on':''} ${k==today?'today':''}" data-k="${k}">${d.n}<small>${Math.round(cnt(k)/d.i.length*100)}%</small></button>`).join('');
+ const d=D[cur];$('dn').textContent=d.n;
+ $('list').innerHTML=d.i.map((x,k)=>{const on=!!st[cur+'-'+k],s=S[x[1]];
+  return `<label class="it ${on?'done':''}" style="--c:${s[1]}"><input type="checkbox" data-k="${k}" ${on?'checked':''}><div><span class="t">${x[0]}</span><div><span class="s">${s[0]}</span>${isEx(x[2])?'<span class="ex">امتحان</span>':''}</div><div class="d">${x[2]}</div></div></label>`}).join('');
+ stats();
+}
+function stats(){
+ const d=D[cur],c=cnt(cur),p=Math.round(c/d.i.length*100);
+ $('db').style.width=p+'%';$('dp').textContent=`${c} من ${d.i.length} · ${p}%`;
+ $('dm').textContent=d.t+' — '+(p==100?'يوم كامل. هذا اللي يسوي 102 🔥':p>=60?'قربت، كمّل':p>0?'بدأت. لا توقف':'أول مهمة هي الأصعب. ابدأ بيها');
+ let tot=0,dn=0,ex=0;const sb={};
+ D.forEach((dd,k)=>dd.i.forEach((x,j)=>{tot++;const o=sb[x[1]]=sb[x[1]]||[0,0];o[1]++;if(st[k+'-'+j]){dn++;o[0]++;if(isEx(x[2]))ex++}}));
+ const w=Math.round(dn/tot*100);
+ $('wp').textContent=w+'%';$('rg').style.strokeDashoffset=326.7*(1-w/100);
+ $('s1').textContent=p+'%';$('s2').textContent=dn+'/'+tot;$('s3').textContent=ex;
+ $('subj').innerHTML=Object.keys(S).filter(k=>sb[k]&&k!='misc').map(k=>{const q=Math.round(sb[k][0]/sb[k][1]*100);return `<div class="sb" style="--c:${S[k][1]}"><span>${S[k][0]}</span><div class="bar"><i style="width:${q}%"></i></div><em>${q}%</em></div>`}).join('');
+ document.querySelectorAll('.tab').forEach(t=>t.querySelector('small').textContent=Math.round(cnt(+t.dataset.k)/D[+t.dataset.k].i.length*100)+'%');
+}
+$('tabs').onclick=e=>{const b=e.target.closest('.tab');if(b){cur=+b.dataset.k;render()}};
+$('list').onchange=e=>{const k=e.target.dataset.k;if(k===undefined)return;st[cur+'-'+k]=e.target.checked;if(!e.target.checked)delete st[cur+'-'+k];sv();e.target.closest('.it').classList.toggle('done',e.target.checked);stats()};
+const q=()=>{$('qt').textContent='« '+Q[qi%Q.length]+' »'};q();
+$('qb').onclick=()=>{qi++;q()};
+let rt;$('rs').onclick=()=>{if($('rs').dataset.c){st={};sv();$('rs').textContent='تصفير الأسبوع';delete $('rs').dataset.c;render()}else{$('rs').dataset.c=1;$('rs').textContent='اضغط مرة ثانية للتأكيد';clearTimeout(rt);rt=setTimeout(()=>{$('rs').textContent='تصفير الأسبوع';delete $('rs').dataset.c},3000)}};
+$('th').onclick=()=>{const r=document.documentElement,dark=r.dataset.theme?r.dataset.theme=='dark':matchMedia('(prefers-color-scheme:dark)').matches;r.dataset.theme=dark?'light':'dark'};
+render();
+/* دفتر الأخطاء */
+let E=[];try{E=JSON.parse(localStorage.getItem('j102e')||'[]')}catch(e){}
+const se=()=>{try{localStorage.setItem('j102e',JSON.stringify(E))}catch(e){}};
+const esc=s=>s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const SK=Object.keys(S).filter(k=>k!='misc'&&k!='hw');
+$('es').innerHTML=SK.map(k=>`<option value="${k}">${S[k][0]}</option>`).join('');
+$('ef').innerHTML='<option value="all">كل المواد</option><option value="todo">لم تُراجَع بعد</option>'+SK.map(k=>`<option value="${k}">${S[k][0]}</option>`).join('');
+function rE(){
+ const f=$('ef').value,L=E.filter(x=>f=='all'||(f=='todo'?!x.ok:x.s==f));
+ $('ec').textContent=`${L.length} من ${E.length} · تمت مراجعة ${E.filter(x=>x.ok).length}`;
+ $('elist').innerHTML=L.length?L.map(x=>`<div class="er ${x.ok?'ok':''}" style="--c:${S[x.s][1]}"><span class="s">${S[x.s][0]}</span><span class="dt">${x.d}</span><p>${esc(x.q)}</p>${x.a?`<p class="a">${esc(x.a)}</p>`:''}<div class="ac"><button data-a="ok" data-id="${x.id}">${x.ok?'رجّعها للمراجعة':'راجعتها ✓'}</button><button data-a="del" data-id="${x.id}">حذف</button></div></div>`).join(''):'<p class="msg">ماكو أخطاء هنا. اكتب أول خطأ وخليه يصير درس.</p>';
+}
+$('eadd').onclick=()=>{const q=$('eq').value.trim();if(!q){$('eq').focus();return}
+ const n=new Date();E.unshift({id:Date.now(),s:$('es').value,q,a:$('ea').value.trim(),ok:false,d:n.getDate()+'/'+(n.getMonth()+1)});
+ se();$('eq').value='';$('ea').value='';rE()};
+$('elist').onclick=e=>{const b=e.target.closest('button');if(!b)return;const id=+b.dataset.id;
+ if(b.dataset.a=='del')E=E.filter(x=>x.id!=id);else E.forEach(x=>{if(x.id==id)x.ok=!x.ok});se();rE()};
+$('ef').onchange=rE;rE();
+</script>
+</body>
+</html>
